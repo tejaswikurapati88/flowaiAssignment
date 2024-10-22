@@ -1,4 +1,4 @@
-### Finance Management
+# Finance Management
 This project named Finance Management is a Assignment given by Floww.ai company. It is a backend project where I have to perform RESTful operations for managing personal financial records. 
 In this application, Users can record their income and expenses, retrieve past transactions, and get summaries by category or time period.
 
