@@ -3,8 +3,6 @@ const path= require('path')
 const {open}= require('sqlite')
 const sqlite3 = require('sqlite3')
 const cors= require('cors')
-const bcrypt= require('bcrypt') 
-const jwt= require('jsonwebtoken')
 const port = 3000 || process.env.port
 
 const app= express()
@@ -101,9 +99,7 @@ app.get('/summary/', async (req, res)=>{
         on incometable.incomeId == expenseTable.expenseId;
     `
     
-    const query=`
-        select id as incomeId, sum(amount) as totalincome from transactions where type= 'income' group by id;
-    `
+    
     const data= await db.get(sqlQuery)
     res.send(data)
 })
