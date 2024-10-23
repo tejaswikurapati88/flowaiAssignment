@@ -34,8 +34,8 @@ const initializationDB= async ()=>{
 initializationDB()
 
 
-
-app.post('/transactions', async (request, response) =>{
+// Inserting data into transactions
+app.post('/transactions/', async (request, response) =>{
     const transactionDetails= request.body 
     const {type, category, amount, description}= transactionDetails 
     
@@ -49,7 +49,8 @@ app.post('/transactions', async (request, response) =>{
 
 })
 
-app.get('/transactions', async (request, response)=>{
+// Getting all transactions
+app.get('/transactions/', async (request, response)=>{
     const getSql= `
         select * from transactions;
     `
@@ -57,7 +58,8 @@ app.get('/transactions', async (request, response)=>{
     response.send(transactions)
 })
 
-app.get('/transactions/:id', async (request, response)=>{
+// Getting transaction a Record by id
+app.get('/transactions/:id/', async (request, response)=>{
     const {id}= request.params
     const getTransById= `
         select * from transactions where id= ${id};
@@ -66,7 +68,8 @@ app.get('/transactions/:id', async (request, response)=>{
     response.send(transactionsById)
 })
 
-app.put('/transactions/:id', async (request, response)=>{
+// Updateing transactions
+app.put('/transactions/:id/', async (request, response)=>{
     const {id}= request.params
     const transDetails= request.body 
     const {amount}= transDetails
@@ -79,6 +82,7 @@ app.put('/transactions/:id', async (request, response)=>{
     response.send('Updated successfully.')
 })
 
+// Deleting a transaction Record 
 app.delete('/transactions/:id/', async (req, res)=>{
     const {id}= req.params 
     const queryDelete = `
@@ -86,6 +90,22 @@ app.delete('/transactions/:id/', async (req, res)=>{
     `
     await db.run(queryDelete)
     res.send('Record Deleted Successfully')
+})
+
+// Get summary
+app.get('/summary/', async (req, res)=>{
+    const sqlQuery = `
+        Select incomeId, totalincome, totalExpenses, totalincome - totalExpenses as balance from 
+        (select id as incomeId, sum(amount) as totalincome from transactions where type= 'income' group by id) as incometable join 
+        (select id as expenseId, sum(amount) as totalExpenses from transactions where type= 'expense' group by id) as expenseTable
+        on incometable.incomeId == expenseTable.expenseId;
+    `
+    
+    const query=`
+        select id as incomeId, sum(amount) as totalincome from transactions where type= 'income' group by id;
+    `
+    const data= await db.get(sqlQuery)
+    res.send(data)
 })
 
 module.exports= app
