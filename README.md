@@ -26,4 +26,5 @@ In this application, Users can record their income and expenses, retrieve past t
 - `DELETE /transactions/:id`: Deletes a transaction by ID.
 - `GET /summary`: Retrieves a summary of transactions, such as total income, total expenses, and balance. Optionally, this can be filtered by date range or category.
 
-![alt text]([[https://res.cloudinary.com/dkvptcm7q/image/upload/v1729661144/Screenshot_139_dz4bxv.png])
+##### Get transaction record by id
+![get transaction record by id](https://res.cloudinary.com/dkvptcm7q/image/upload/v1729661144/Screenshot_139_dz4bxv.png)
